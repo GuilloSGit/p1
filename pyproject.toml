@@ -1,0 +1,16 @@
+[project]
+name = "terminal-console-ai"
+authors = [
+    { name = "Guillermo Andrada", email = "guillermo.andrada@outlook.com" }
+]
+version = "0.1.0"
+description = "Terminal Console AI"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "geopy>=2.4.1",
+    "langchain>=0.3.27",
+    "langchain-openai>=0.3.28",
+    "langgraph>=0.6.1",
+    "python-dotenv>=1.1.1",
+]
