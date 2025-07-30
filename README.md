@@ -1,15 +1,32 @@
-## Commented until I know the project better
+### AI Console Assistant
 
-## TODO
-- [ ] Take an idea of the project according to the YouTube Tutorial
-- [ ] Create a virtual environment
-- [ ] Install packages with UV: uv add langgraph langchain pyhton-dotenv langchain-openai
-- [ ] Get OpenAI API Key for LLM agent access
-- [ ] Create a .env file
-- [ ] Create a main.py file
-- [ ] Run the main.py file
+This is a simple AI Console Assistant that uses LangChain and OpenAI to create a chatbot that can answer questions and perform tasks.
 
-## Other info
-- Tutorial link: [TechWithTim](https://www.youtube.com/watch?v=XZdY15sHUa8&ab_channel=TechWithTim) 
+## Project Structure
+
+- main.py: The main file that contains the main function and the chatbot logic.
+- .env: The environment file that contains the OpenAI API key.
+- requirements.txt: The requirements file that contains the required packages for the project.
+
+## How to run the project
+
+1. Install the required packages:
+```bash
+uv add langchain langchain-openai langgraph python-dotenv
+```
+2. Set the OpenAI API key in the .env file.
+```bash
+OPENAI_API_KEY=your-openai-api-key
+```
+3. Run the main.py file:
+```bash
+python main.py
+```
+
+## Project Details
+
 - AI Model: [ChatGPT](https://chat.openai.com/chat)
-- Auther: [TechWithTim](https://www.youtube.com/@TechWithTim)
+- Author: [Guillermo Andrada](https://github.com/GuilloSGit)
+- Date: 2025-07-30
+- Version: 1.0.0
+- [License](LICENSE)
