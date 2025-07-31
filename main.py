@@ -1,35 +1,34 @@
 import os
-
-from openai import audio
-from langchain_core.messages import HumanMessage
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-from langchain.tools import tool
-from langgraph.prebuilt import create_react_agent
 from datetime import datetime
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.tools import tool
+from langgraph.prebuilt import create_react_agent
 
 load_dotenv()
 
-
 @tool
 def agent_info() -> str:
-    """Useful for getting information about the application and the author"""
-    return "ConsoLito", "Assistant", "Guillermo Andrada", "1.0.0", "Guillermo, nació en San Juan, el 13 de Diciembre de 1986."
+    """Devuelve información sobre la aplicación y el autor."""
+    return "ConsoLito, Assistant, Guillermo Andrada, v1.0.0, nacido en San Juan el 13/12/1986."
 
 @tool
-def currentTime() -> str:
-    """Useful for getting the current time"""
+def current_time() -> str:
+    """Devuelve la hora actual."""
     return datetime.now().strftime("%m-%d %H:%M")
 
 @tool
-def get_to_know_the_user() -> str:
-    """Useful for getting to know the user"""
+def get_to_know_user() -> str:
+    """Pregunta para conocer al usuario."""
     return "Hola, bienvenid@! 🌟, ¿cómo es tu nombre?"
 
 def main():
     model = ChatOpenAI(temperature=0)
-    tools = [currentTime, get_to_know_the_user, agent_info]
-    agent_executor = create_react_agent(model, tools)
+    tools = [current_time, get_to_know_user, agent_info]
+
+    agent = create_react_agent(model, tools)
+    state = {"messages": []}
 
     print("¡Hola, bienvenid@! 🌟")
     print("Puedes pedirme hacer cuentas matemáticas, chistes o quedarte solo conversando conmigo.")
@@ -40,15 +39,17 @@ def main():
         if user_input.lower() == "salir":
             break
 
-        print("\n🤖📝 ConsoLito: ", end="")
-        for chunk in agent_executor.stream(
-            {"messages": [HumanMessage(content=user_input)]}
-        ):
-            if "agent" in chunk and "messages" in chunk["agent"]:
-                for message in chunk["agent"]["messages"]:
-                    print(message.content, end="")
-        
-        print()
+        # Agregar el mensaje del usuario
+        state["messages"].append(HumanMessage(content=user_input))
+
+        # Ejecutar el agente (responde una vez)
+        state = agent.invoke(state)
+
+        # Buscar el último mensaje del agente
+        messages = state["messages"]
+        last_message = messages[-1]
+
+        print("\n🤖📝 ConsoLito:", last_message.content)
 
 if __name__ == "__main__":
     main()
